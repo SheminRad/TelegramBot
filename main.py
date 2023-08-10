@@ -2,10 +2,7 @@
 from telegram import Update
 from telegram.ext import MessageHandler, CommandHandler,Application,ContextTypes,filters
 from typing import Final
-api_id = 24639167 
-api_hash: Final = '3499232ad05243958f1bb48ea78516d6'
-bot_token: Final = '6200739861:AAHBcUzIAwNQrxCpkrINfSymphHOyW5T8lE'
-bot_username: Final = '@SheminBot'
+
 
 async def start_Command(update: Update,context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply.text("Hello there!Let's start chatting")
