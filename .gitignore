@@ -1,2 +1,2 @@
-/constants.py
-/functions.py
+echo ".py" >> .gitignore
+constants.py
