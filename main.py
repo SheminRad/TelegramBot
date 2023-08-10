@@ -13,24 +13,31 @@ def handle_response(text:str)->str:
         return 'کیه؟'
     else:
         return text
+    
+def handle_response(content):
+    return content
 
-async def handle_meassage(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message_type: str = update.message.chat.type
-    text: str = update.message.text
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    message = update.message
 
-    print(f'User ({update.message.chat.id}) in {message_type}: "{text}"')
-
-    if message_type == 'group':
-        if bot_token in text:
-            new_text: str = text.replace(bot_token,'').strip()
-            response: str = handle_response(new_text)
-        else:
-            return
+    # Extract message content based on message type
+    if message.text:  # Text message
+        content = message.text
+    elif message.sticker:  # Sticker message
+        content = message.sticker
+    elif message.document:  # Document (including GIF) message
+        content = message.document
     else:
-        response: str = handle_response(text)
+        content = "Received a message of unsupported type"
 
-    print('Bot: ',response)
-    await update.message.reply_text(response)
+    response = handle_response(content)
+    print('Bot:', response)
+    if message.text:
+        await update.message.reply_text(response)
+    elif message.sticker:
+        await update.message.reply_sticker(response)
+    else:
+        await update.message.reply_document(response)
 
 
 async def error(update: Update,context:ContextTypes.DEFAULT_TYPE):
@@ -42,10 +49,9 @@ if __name__ == '__main__':
 
     #Commands
     app.add_handler(CommandHandler('start', start_Command)) 
-
+   
     #Messages
-    app.add_handler(MessageHandler(filters.TEXT, handle_meassage))
-
+    app.add_handler(MessageHandler(filters.ALL, handle_message))
     #Errors
     app.add_error_handler(error)
 
