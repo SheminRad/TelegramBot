@@ -1,5 +1,5 @@
 #from constants import bot_token , bot_username
-from telegram import Update
+from telegram import Document, Sticker, Update
 from telegram.ext import MessageHandler, CommandHandler,Application,ContextTypes,filters
 from typing import Final
 from constants import bot_token, bot_username,api_hash,api_id
@@ -14,8 +14,12 @@ def handle_response(text:str)->str:
     else:
         return text
     
-def handle_response(content):
+def handle_response(content: Sticker)->Sticker:
     return content
+
+def handle_response(content: Document)->Document:
+    return Document
+
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
