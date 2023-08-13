@@ -1,0 +1,16 @@
+13/08/2023
+Today I tried to work on the error I was 
+getting related to HTTP implementation which 
+was because of the handle response functions.
+The program was not able to reply with sticker
+or any other document.
+
+I decided to take a look at Telegram documentation
+for this issue and I realized python does not have 
+the ability to differentiate the functions with the 
+same name (overloading).
+
+I am now using chat-gpt to learn about each functions
+that i am supposed to use in order to make them work:
+updater needs dispatcher in order to decide which handler 
+function to use based on the content.
