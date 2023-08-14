@@ -1,4 +1,5 @@
 #from constants import bot_token , bot_username
+from asyncore import dispatcher
 from telegram import Document, Sticker, Update
 from telegram.ext import MessageHandler, CommandHandler,Application,ContextTypes,filters
 from typing import Final
@@ -14,35 +15,27 @@ def handle_response(text:str)->str:
     else:
         return text
     
-def handle_response(content: Sticker)->Sticker:
+def handle_response_sticker(content: Sticker)->Sticker:
     return content
 
-def handle_response(content: Document)->Document:
+def handle_response_document(content: Document)->Document:
     return Document
-
 
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
 
-    # Extract message content based on message type
-    if message.text:  # Text message
-        content = message.text
-    elif message.sticker:  # Sticker message
-        content = message.sticker
-    elif message.document:  # Document (including GIF) message
-        content = message.document
-    else:
-        content = "Received a message of unsupported type"
-
-    response = handle_response(content)
-    print('Bot:', response)
     if message.text:
+        response = handle_response(message.text)
         await update.message.reply_text(response)
     elif message.sticker:
+        response = handle_response_sticker(message.sticker)
         await update.message.reply_sticker(response)
-    else:
+    elif message.document:
+        response = handle_response_document(message.document)
         await update.message.reply_document(response)
-
+    else:
+        response = "Received a message of unsupported type"
+        await update.message.reply_text(response)
 
 async def error(update: Update,context:ContextTypes.DEFAULT_TYPE):
     print(f'Update {update} caused error {context.error}')
