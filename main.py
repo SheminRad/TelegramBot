@@ -1,11 +1,15 @@
 from constants import bot_token , bot_username
 from telegram import Document, Sticker, Update
-from telegram.ext import MessageHandler, CommandHandler,Application,ContextTypes,filters,CallbackContext,ConversationHandler
+from telegram.ext import MessageHandler, CommandHandler,Application
+from telegram.ext import ContextTypes,filters,CallbackContext,ConversationHandler
 #from typing import Final
 
 
 USER_STATE1, USER_STATE2, USER_STATE3, LAST_STATE = range(4)
 
+async def start_Command(update: Update,context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply.text("Hello there!Let's start chatting")
+    return USER_STATE1 
 
 # Handler for the first state
 def handle_user_state1(update: Update, context: CallbackContext):
@@ -13,7 +17,7 @@ def handle_user_state1(update: Update, context: CallbackContext):
     user_data = context.user_data.get(user_id, {})  # Get user-specific dictionary
     
     message = update.message.text
-    if message == 'تق تق':
+    if 'تق تق' in message.strip.lower():
         user_data['key1'] = 'value1'  # Store a key-value pair for the user
         update.message.reply_text("کیه؟")
         return USER_STATE2
@@ -38,9 +42,6 @@ def handle_user_state3(update: Update, context: CallbackContext):
     message = update.message.text
     update.message.reply_text(":)")
 
-async def start_Command(update: Update,context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply.text("Hello there!Let's start chatting")
-    return USER_STATE1 
 
 def handle_response(text:str)->str:
     return text
@@ -89,6 +90,7 @@ if __name__ == '__main__':
 
     #Messages
     app.add_handler(MessageHandler(filters.ALL, handle_message))
+    app.add_handler(conv_handler)
 
     #Errors
     app.add_error_handler(error)
