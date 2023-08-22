@@ -81,7 +81,7 @@ if __name__ == '__main__':
             USER_STATE1: [MessageHandler(filters.TEXT, handle_user_state1)],
             USER_STATE2: [MessageHandler(filters.TEXT, handle_user_state2)],
             USER_STATE3: [MessageHandler(filters.TEXT, handle_user_state3)],
-            LAST_STATE: [MessageHandler(filters.TEXT, handle_message)]
+            LAST_STATE: [MessageHandler(filters.ALL, handle_message)]
         },
         fallbacks=[]
     )
