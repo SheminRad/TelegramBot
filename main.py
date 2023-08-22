@@ -4,7 +4,7 @@ from telegram.ext import MessageHandler, CommandHandler,Application,ContextTypes
 #from typing import Final
 
 
-USER_STATE1, USER_STATE2, USER_STATE3 = range(3)
+USER_STATE1, USER_STATE2, USER_STATE3, LAST_STATE = range(4)
 
 
 # Handler for the first state
@@ -18,7 +18,7 @@ def handle_user_state1(update: Update, context: CallbackContext):
         update.message.reply_text("کیه؟")
         return USER_STATE2
     else:
-        return handle_message(message)
+        return LAST_STATE
 
 # Handler for the second state
 def handle_user_state2(update: Update, context: CallbackContext):
@@ -63,7 +63,8 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif message.document:
         response = handle_response_document(message.document)
         await update.message.reply_document(response)
-    
+    else:
+        await update.message.reply_text(response)
     print('Bot: ',response)
     #await update.message.reply_text(response)
 async def error(update: Update,context:ContextTypes.DEFAULT_TYPE):
@@ -79,6 +80,7 @@ if __name__ == '__main__':
             USER_STATE1: [MessageHandler(filters.TEXT, handle_user_state1)],
             USER_STATE2: [MessageHandler(filters.TEXT, handle_user_state2)],
             USER_STATE3: [MessageHandler(filters.TEXT, handle_user_state3)],
+            LAST_STATE: [MessageHandler(filters.TEXT, handle_message)]
         },
         fallbacks=[]
     )
