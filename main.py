@@ -21,20 +21,17 @@ def handle_response_sticker(content: Sticker)->Sticker:
     return content
 
 def handle_response_document(content: Document)->Document:
-    return Document
+    return content
 #---------------------------------------------------------------------
 #---------------------------------------------------------------------
 # Handler for the state
 async def handle_user_state1(update: Update, context: ContextTypes.DEFAULT_TYPE, status):
-    print("worked3")
     user_id = update.effective_user.id
     user_data = context.user_data.get(user_id, {})  # Get user-specific dictionary
     
     message = update.message.text
     if status == 1:
-        print("worked4")
         user_data['key1'] = 'value1'  # Store a key-value pair for the user
-        print("worked5")
         await update.message.reply_text("کیه؟")
         return 2
         #USER_STATE[update.effective_user.id] = await handle_user_state1(update,context,2)
@@ -50,10 +47,9 @@ async def handle_user_state1(update: Update, context: ContextTypes.DEFAULT_TYPE,
 #---------------------------------------------------------------------
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     message = update.message
-    if 'تق تق' in message.text.strip().lower():
+    if message.text == 'تق تق':
         print(update.effective_user.id, " called taq taq")
         USER_STATE[update.effective_user.id] = 1
-        print("worked1")
     state = USER_STATE.get(update.effective_user.id, 0)
 
     if state == 0:
@@ -70,7 +66,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text(message)
             print('Bot: ',response)
     else:
-       print("worked2")
        USER_STATE[update.effective_user.id] = await handle_user_state1(update, context, state)
 
 #---------------------------------------------------------------------
