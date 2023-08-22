@@ -3,7 +3,7 @@ from telegram import Document, Sticker, Update
 from telegram.ext import MessageHandler, CommandHandler,Application,ContextTypes,filters,CallbackContext,ConversationHandler
 #from typing import Final
 
-# State constants
+
 USER_STATE1, USER_STATE2, USER_STATE3 = range(3)
 
 
