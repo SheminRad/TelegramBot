@@ -1,0 +1,34 @@
+13/08/2023
+Today I tried to work on the error I was 
+getting related to HTTP implementation which 
+was because of the handle response functions.
+The program was not able to reply with sticker
+or any other document.
+
+I decided to take a look at Telegram documentation
+for this issue and I realized python does not have 
+the ability to differentiate the functions with the 
+same name (overloading).
+
+I am now using chat-gpt to learn about each functions
+that i am supposed to use in order to make them work:
+updater needs dispatcher in order to decide which handler 
+function to use based on the content.
+
+14/08/2023
+I made the bot work!
+the bot was supposed to repeat whatever we say to it 
+whether it's text, sticker or document. I changed the 
+handle response functions to work based on its type of
+parameter.
+
+afterward i started learning about how to make a conversation 
+with a bot. it works with conversation handler from telegram.ext.
+
+i changed the handle response text function to reply differently 
+using the conversation handler but still needs some work.
+
+also i searched for how to track the users talking to the bot
+separately,in order not to confuse the conversations, but apparently 
+it's hard to keep track of so many users at the same time because
+of the database limitations i guess.

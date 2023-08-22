@@ -31,7 +31,6 @@ def handle_user_state2(update: Update, context: CallbackContext):
     return USER_STATE3
     
 
-# Handler for the third state
 def handle_user_state3(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     user_data = context.user_data.get(user_id, {})
